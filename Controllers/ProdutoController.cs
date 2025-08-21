@@ -57,5 +57,47 @@ namespace MinhaAPI.Controllers
             return Ok($"Produto com ID {id} removido com sucesso."); // Retorna 200 OK com uma mensagem de sucesso
 
         }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> getById([FromRoute] int id)
+        {
+
+            Produto? produto = await _contextDb.Produtos.FindAsync(id);
+
+            if (produto == null)
+            {
+                return NotFound($"Produto com o id {id} não foi encontrado");
+            }
+
+            return Ok(produto);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id,[FromBody] Produto produto)
+        {
+            if (id != produto.Id)
+            {
+            return BadRequest("O Id enviado não corresponde ao id do produto no Banco de dados");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            bool exist = await _contextDb.Produtos.AnyAsync(p => p.Id == id);
+
+            if (!exist)
+            {
+                return NotFound(new { error = true, message = $"O produto com o id {id} não foi encontrado" });
+            }
+
+            _contextDb.Entry(produto).State = EntityState.Modified;
+            await _contextDb.SaveChangesAsync();
+
+            return Ok("Produto atualizado com sucesso!");
+        }
+
     }
 }

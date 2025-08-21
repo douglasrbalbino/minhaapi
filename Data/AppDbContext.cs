@@ -10,5 +10,7 @@ namespace MinhaAPI.Data
         }
 
         public DbSet<Produto> Produtos { get; set; } = null!;
+
+        public DbSet<Livro> Livros { get; set; } = null!;
     }
 }
