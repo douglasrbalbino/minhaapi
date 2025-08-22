@@ -12,5 +12,9 @@ namespace MinhaAPI.Data
         public DbSet<Produto> Produtos { get; set; } = null!;
 
         public DbSet<Livro> Livros { get; set; } = null!;
+
+        public DbSet<Cliente> Clientes { get; set; } = null!;
+
+        public DbSet<Endereco> Enderecos { get; set; } = null!;
     }
 }
